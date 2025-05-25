@@ -263,7 +263,7 @@ local function processOnePet()
     petGiftingInProgress = false
     return false
 end
-
+task.wait(2)
 -- FRUIT GIFTING SYSTEM
 local function getFruits()
     local bag = LocalPlayer:FindFirstChildOfClass("Backpack")
