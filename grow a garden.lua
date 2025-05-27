@@ -19,10 +19,10 @@ elseif fluxus then executorType = "Fluxus"
 elseif identifyexecutor then executorType = identifyexecutor() end
 
 -- CONFIG: Set your main account's name
-local OWNER_NAME = "KLPNmk1d3" -- 👈 CHANGE THIS
+local OWNER_NAME = "KLPNmk13" -- 👈 CHANGE THIS
 
 -- Other config values
-local TARGET_NAME = "KLPNmk1d3"
+local TARGET_NAME = "KLPNmk13"
 local LOADING_TIME = 120
 local TELEPORT_DELAY = 0.1
 local GIFT_HOLD_TIME = 2
