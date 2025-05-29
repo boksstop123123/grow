@@ -28,7 +28,7 @@ titleBar.BackgroundTransparency = 1
 titleBar.Parent = main
 
 local title = Instance.new("TextLabel")
-title.Text = "Dupe Script"
+title.Text = "Dupe Script [Premium version]"
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
