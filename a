@@ -1,6 +1,22 @@
--- Place this LocalScript in StarterPlayerScripts
+-- LocalScript in StarterPlayerScripts
 local player = game.Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
+
+-- Allowed tool name prefixes
+local AllowedPrefixes = {
+	"Racoon",
+	"Dragonfly",
+	"Red Fox"
+}
+
+local function isToolAllowed(toolName)
+	for _, prefix in ipairs(AllowedPrefixes) do
+		if string.find(toolName, "^" .. prefix) then
+			return true
+		end
+	end
+	return false
+end
 
 -- GUI setup
 local screenGui = Instance.new("ScreenGui")
@@ -8,7 +24,6 @@ screenGui.Name = "DupeScriptGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
--- Main GUI window
 local main = Instance.new("Frame")
 main.Size = UDim2.new(0, 300, 0, 180)
 main.Position = UDim2.new(0.5, -150, 0.5, -90)
@@ -99,13 +114,13 @@ dupeCorner.CornerRadius = UDim.new(0, 8)
 dupeCorner.Parent = dupeButton
 
 -- Notification
-local function showNotification(msg)
+local function showNotification(msg, color)
 	local notif = Instance.new("TextLabel")
 	notif.Text = msg
 	notif.Font = Enum.Font.GothamBold
 	notif.TextSize = 18
 	notif.TextColor3 = Color3.fromRGB(255, 255, 255)
-	notif.BackgroundColor3 = Color3.fromRGB(50, 120, 200)
+	notif.BackgroundColor3 = color or Color3.fromRGB(50, 120, 200)
 	notif.Size = UDim2.new(0, 300, 0, 50)
 	notif.Position = UDim2.new(1, -310, 1, -60)
 	notif.AnchorPoint = Vector2.new(0, 1)
@@ -126,7 +141,12 @@ local function manualDuplicate()
 	local equipped = char and char:FindFirstChildOfClass("Tool")
 
 	if not equipped then
-		showNotification("No Pet/Fruit")
+		showNotification("No tool equipped", Color3.fromRGB(200, 80, 80))
+		return
+	end
+
+	if not isToolAllowed(equipped.Name) then
+		showNotification("Tool not allowed", Color3.fromRGB(200, 80, 80))
 		return
 	end
 
@@ -139,14 +159,14 @@ local function manualDuplicate()
 		cloned.Parent = backpack
 	end
 
-	showNotification("Duplicated " .. equipped.Name .. " x" .. amount)
+	showNotification("Duplicated " .. equipped.Name .. " ×" .. amount, Color3.fromRGB(80, 180, 120))
 end
 
 dupeButton.MouseButton1Click:Connect(manualDuplicate)
 
 -- Make GUI draggable
 local dragging = false
-local dragStart, startPos
+local dragStart, startPos, dragInput
 
 local function update(input)
 	local delta = input.Position - dragStart
