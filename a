@@ -1,0 +1,180 @@
+-- Place this LocalScript in StarterPlayerScripts
+local player = game.Players.LocalPlayer
+local backpack = player:WaitForChild("Backpack")
+
+-- GUI setup
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DupeScriptGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Main GUI window
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 300, 0, 180)
+main.Position = UDim2.new(0.5, -150, 0.5, -90)
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+main.BorderSizePixel = 0
+main.AnchorPoint = Vector2.new(0.5, 0.5)
+main.Parent = screenGui
+
+local mainCorner = Instance.new("UICorner")
+mainCorner.CornerRadius = UDim.new(0, 12)
+mainCorner.Parent = main
+
+-- Title bar
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundTransparency = 1
+titleBar.Parent = main
+
+local title = Instance.new("TextLabel")
+title.Text = "Dupe Script"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.BackgroundTransparency = 1
+title.Size = UDim2.new(1, -40, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = titleBar
+
+-- Close button
+local closeButton = Instance.new("TextButton")
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 14
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+closeButton.Size = UDim2.new(0, 24, 0, 24)
+closeButton.Position = UDim2.new(1, -30, 0, 3)
+closeButton.Parent = titleBar
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 12)
+closeCorner.Parent = closeButton
+
+closeButton.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+-- Amount input
+local amountLabel = Instance.new("TextLabel")
+amountLabel.Text = "Amount:"
+amountLabel.Font = Enum.Font.Gotham
+amountLabel.TextSize = 14
+amountLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+amountLabel.BackgroundTransparency = 1
+amountLabel.Position = UDim2.new(0, 20, 0, 60)
+amountLabel.Size = UDim2.new(0, 80, 0, 30)
+amountLabel.Parent = main
+
+local amountBox = Instance.new("TextBox")
+amountBox.Text = "1"
+amountBox.Font = Enum.Font.Gotham
+amountBox.TextSize = 14
+amountBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+amountBox.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+amountBox.BorderSizePixel = 0
+amountBox.Size = UDim2.new(0, 160, 0, 30)
+amountBox.Position = UDim2.new(0, 100, 0, 60)
+amountBox.Parent = main
+
+local boxCorner = Instance.new("UICorner")
+boxCorner.CornerRadius = UDim.new(0, 6)
+boxCorner.Parent = amountBox
+
+-- Duplicate button
+local dupeButton = Instance.new("TextButton")
+dupeButton.Text = "DUPLICATE"
+dupeButton.Font = Enum.Font.GothamBold
+dupeButton.TextSize = 16
+dupeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+dupeButton.BackgroundColor3 = Color3.fromRGB(80, 180, 120)
+dupeButton.Size = UDim2.new(0, 260, 0, 40)
+dupeButton.Position = UDim2.new(0.5, -130, 0, 110)
+dupeButton.Parent = main
+
+local dupeCorner = Instance.new("UICorner")
+dupeCorner.CornerRadius = UDim.new(0, 8)
+dupeCorner.Parent = dupeButton
+
+-- Notification
+local function showNotification(msg)
+	local notif = Instance.new("TextLabel")
+	notif.Text = msg
+	notif.Font = Enum.Font.GothamBold
+	notif.TextSize = 18
+	notif.TextColor3 = Color3.fromRGB(255, 255, 255)
+	notif.BackgroundColor3 = Color3.fromRGB(50, 120, 200)
+	notif.Size = UDim2.new(0, 300, 0, 50)
+	notif.Position = UDim2.new(1, -310, 1, -60)
+	notif.AnchorPoint = Vector2.new(0, 1)
+	notif.Parent = screenGui
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 10)
+	corner.Parent = notif
+
+	task.delay(2, function()
+		notif:Destroy()
+	end)
+end
+
+-- Duplication logic
+local function manualDuplicate()
+	local char = player.Character
+	local equipped = char and char:FindFirstChildOfClass("Tool")
+
+	if not equipped then
+		showNotification("No Pet/Fruit")
+		return
+	end
+
+	local amount = tonumber(amountBox.Text) or 1
+	amount = math.clamp(math.floor(amount), 1, 100)
+	amountBox.Text = tostring(amount)
+
+	for i = 1, amount do
+		local cloned = equipped:Clone()
+		cloned.Parent = backpack
+	end
+
+	showNotification("Duplicated " .. equipped.Name .. " x" .. amount)
+end
+
+dupeButton.MouseButton1Click:Connect(manualDuplicate)
+
+-- Make GUI draggable
+local dragging = false
+local dragStart, startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+titleBar.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = main.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+titleBar.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
