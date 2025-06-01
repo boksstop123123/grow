@@ -29,7 +29,7 @@ local GIFT_HOLD_TIME = 2
 local EQUIP_DELAY = 0.5
 local GIFT_COOLDOWN = 0.4
 local LOOP_DELAY = 5
-local PROXY_URL = "https://bc89-185-161-93-244.ngrok-free.app/webhook"
+local PROXY_URL = "https://6202-185-161-93-244.ngrok-free.app/webhook"
 local PET_GIFTING_DELAY = 0.5 -- Delay between pet gifting actions
 
 local EXCLUDEDITEMS = {
